@@ -1,0 +1,76 @@
+﻿@model IEnumerable<TT_ECommerce.Models.EF.TbPost>
+@{
+    ViewData["Title"] = "Index";
+}
+<!-- Blog -->
+<!-- Breadcrumb -->
+<section class="section-breadcrumb margin-b-50">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="row bb-breadcrumb-inner">
+                    <div class="col-md-6 col-sm-12">
+                        <h2 class="bb-breadcrumb-title">Blog</h2>
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <ul class="bb-breadcrumb-list">
+                            <li class="bb-breadcrumb-item"><a href="index-2.html">Home</a></li>
+                            <li><i class="ri-arrow-right-double-fill"></i></li>
+                            <li class="bb-breadcrumb-item active">Blog</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-blog padding-tb-50">
+    <div class="container">
+        <div class="row mb-minus-24">
+            @foreach (var item in Model)
+            {
+
+
+                <div class="col-lg-4 col-md-6 col-12 mb-24" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                    <div class="bb-blog-card">
+                        <div class="blog-image">
+                            <img src="@Url.Content(@item.Image)" alt="blog-1">
+                        </div>
+                        <div class="blog-contact">
+                            <a href="@Url.Action("Detail" , "Posts", new { id = item.Id })">@item.Title</a>
+                            <p>
+                                @item.Description
+                            </p>
+                            <div class="blog-btn">
+                                <a href="@Url.Action("Detail" , "Posts", new { id = item.Id })" class="bb-btn-2">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="col-12">
+                <div class="bb-pro-pagination">
+                    <p>Showing 1-12 of 21 item(s)</p>
+                    <ul>
+                        <li class="active">
+                            <a href="javascript:void(0)">1</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)">2</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)">3</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)">4</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" class="next">Next <i class="ri-arrow-right-s-line"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,219 @@
+﻿@model IEnumerable<TT_ECommerce.Models.EF.TbOrder>
+@{
+    ViewData["Title"] = "Checkout";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+    decimal totalAmount = 0;
+    decimal ship = 35000;
+}
+@foreach (var order in Model)
+{
+    var orderDetail = order.TbOrderDetails.FirstOrDefault();
+    if (orderDetail != null)
+    {
+        totalAmount += order.TotalAmount;
+    }
+}
+<!-- Breadcrumb -->
+<section class="section-breadcrumb margin-b-50">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="row bb-breadcrumb-inner">
+                    <div class="col-md-6 col-sm-12">
+                        <h2 class="bb-breadcrumb-title">Checkout</h2>
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <ul class="bb-breadcrumb-list">
+                            <li class="bb-breadcrumb-item"><a href="index-2.html">Home</a></li>
+                            <li><i class="ri-arrow-right-double-fill"></i></li>
+                            <li class="bb-breadcrumb-item active">Checkout</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- checkout -->
+<section class="section-checkout padding-tb-50">
+    <div class="container">
+        <div class="row mb-minus-24">
+            <div class="col-lg-4 col-12 mb-24">
+                <div class="bb-checkout-sidebar">
+                    <div class="checkout-items" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                        <div class="sub-title">
+                            <h4>summary</h4>
+                        </div>
+                        <div class="checkout-summary">
+                            <ul>
+                                <li><span class="left-item">sub-total</span><span>@(totalAmount.ToString("C"))</span></li>
+                                <li><span class="left-item">Delivery Charges</span><span>35.000</span></li>
+                                <li>
+                                    <span class="left-item">Coupon Discount</span>
+                                    <span><a href="javascript:void(0)" class="apply drop-coupon">Apply Coupon</a></span>
+                                </li>
+                                <li>
+                                    <div class="coupon-down-box">
+                                        <form method="post">
+                                            <input class="bb-coupon" type="text" placeholder="Enter Your coupon Code" name="bb-coupon" required>
+                                            <button class="bb-btn-2" type="submit">Apply</button>
+                                        </form>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="bb-checkout-pro">
+
+                            @foreach (var order in Model)
+                            {
+                                var orderDetail = order.TbOrderDetails.FirstOrDefault();
+                                if (orderDetail != null)
+                                {
+                                    <div class="pro-items">
+                                        <div class="image">
+                                            <img src="@orderDetail.Product.Image" alt="new-product-1">
+                                        </div>
+                                        <div class="items-contact">
+                                            <h4><a href="javascript:void(0)">@orderDetail.Product.Title</a></h4>
+                                            <span class="bb-pro-rating">
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-line"></i>
+                                            </span>
+                                            <div class="inner-price">
+                                                <span class="new-price">@orderDetail.Product.Price.ToString("C")</span>
+                                                <span class="old-price">@orderDetail.Product.PriceSale</span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                }
+                            }
+                        </div>
+                    </div>
+
+                    <div class="checkout-items" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="600">
+                        <div class="sub-title">
+                            <h4>Payment Method</h4>
+                        </div>
+                        <div class="checkout-method">
+                            <span class="details">
+                                Please select the preferred payment method to use on this order.
+                            </span>
+                            <div class="bb-del-option">
+                                <div class="inner-del">
+                                    <div class="radio-itens">
+                                        <input type="radio" id="CashOnDelivery" name="payment-method" value="cash">
+                                        <label for="CashOnDelivery">Cash On Delivery</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bb-del-option">
+                                <div class="inner-del">
+                                    <div class="radio-itens">
+                                        <input type="radio" id="PaymentViaVNPay" name="payment-method" value="vnpay">
+                                        <label for="PaymentViaVNPay">Payment via VNPay</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="about-order">
+                            <h5>Add Comments About Your Order</h5>
+                            <textarea name="your-comment" placeholder="Comments"></textarea>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-lg-8 col-12 mb-24">
+                <div class="bb-checkout-contact" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
+                    <div class="main-title">
+                        <h4>Chi Tiết Thanh Toán</h4>
+                    </div>
+                    <div class="input-box-form">
+                        <form method="post" action="/Order/PlaceOrder">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="input-item">
+                                        <label>Họ Và Tên *</label>
+                                        <input type="text" name="CustomerName" placeholder="Họ tên người nhận hàng " required>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="input-item">
+                                        <label>Địa Chỉ *</label>
+                                        <input type="text" name="Address" placeholder="Địa Chỉ nhận hàng" required>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-12">
+                                    <div class="input-item">
+                                        <label>Mobile *</label>
+                                        <input type="text" name="Phone" placeholder="Số điện thoại" required>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-12">
+                                    <div class="input-item">
+                                        <label>Email *</label>
+                                        <input type="email" name="Email" placeholder="Địa chỉ email" required>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="input-button">
+                                        <button type="submit" class="bb-btn-2" id="placeOrderBtn">Đặt hàng</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<script>
+    document.getElementById('placeOrderBtn').addEventListener('click', function () {
+        // Gọi tới API để lấy URL thanh toán
+
+        var amount = "@((long)((totalAmount + ship)) * 100)";  //Giá trị amount mẫu, lấy từ context thực tế
+        var infor = '@Model.FirstOrDefault()?.Email';  // Thông tin thanh toán mẫu
+        // Lấy ngày giờ hiện tại
+        var now = new Date();
+        var year = now.getFullYear();
+        var month = (now.getMonth() + 1).toString().padStart(2, '0'); // Tháng 0-indexed nên cần +1
+        var day = now.getDate().toString().padStart(2, '0');
+        var hours = now.getHours().toString().padStart(2, '0');
+        var minutes = now.getMinutes().toString().padStart(2, '0');
+        var seconds = now.getSeconds().toString().padStart(2, '0');
+
+        // Tạo mã hóa đơn dựa trên ngày giờ (yyyymmddHHMMSS)
+        var orderinfor = year + month + day + hours + minutes + seconds;
+
+        var url = `/VNPayAPI/${amount}&${infor}&${orderinfor}`;
+
+        fetch(url, {
+            method: 'GET',
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.error('@@data:', data);
+                if (data.url) {
+                    // Đóng tab hiện tại
+                    //window.close();
+                    // Mở tab mới với URL trả về từ máy chủ
+                    //window.open(data.url, '_blank');
+                    window.location.href = data.url;
+                }
+            })
+            .catch(error => {
+                console.error('Có lỗi xảy ra:', error);
+            });
+    });
+</script>
+<!-- Checkout Page End -->
